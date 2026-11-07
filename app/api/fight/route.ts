@@ -16,7 +16,7 @@ export async function POST(req: Request): Promise<Response> {
     return Response.json({ error: check.error }, { status: 400 });
   }
 
-  const apiKey = process.env.GEMINI_API_KEY?.trim();
+  const apiKey = process.env.GEMINI_API_KEY?.trim().replace(/^['"]|['"]$/g, "");
   if (!apiKey) {
     return Response.json(
       { error: "Missing GEMINI_API_KEY in environment (.env.local)." },
@@ -58,3 +58,4 @@ export async function POST(req: Request): Promise<Response> {
     },
   });
 }
+

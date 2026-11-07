@@ -35,22 +35,22 @@ export async function* runFight(
     for (let round = 1; round <= ROUNDS; round++) {
       yield { type: "round_start", round };
 
-      const texts = await Promise.all(
-        fighters.map(async (fighter) => {
-          const res = await llm.text(
-            fighterPrompt({
-              dilemma,
-              fighter,
-              rivals: fighters.filter((f) => f.id !== fighter.id),
-              round,
-              previous,
-            }),
-          );
-          tokens[fighter.id] += res.tokens;
-          return { fighterId: fighter.id, text: res.text.trim() };
-        }),
-      );
-      for (const a of texts) yield { type: "argument", fighterId: a.fighterId, text: a.text, round };
+      const texts: { fighterId: string; text: string }[] = [];
+      for (const fighter of fighters) {
+        const res = await llm.text(
+          fighterPrompt({
+            dilemma,
+            fighter,
+            rivals: fighters.filter((f) => f.id !== fighter.id),
+            round,
+            previous,
+          }),
+        );
+        tokens[fighter.id] += res.tokens;
+        const entry = { fighterId: fighter.id, text: res.text.trim() };
+        texts.push(entry);
+        yield { type: "argument", fighterId: entry.fighterId, text: entry.text, round };
+      }
       previous = texts;
 
       const scores: Record<string, JudgedScores> = await withRetry(

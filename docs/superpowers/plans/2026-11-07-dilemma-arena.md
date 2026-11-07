@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Status:** Complete (Tasks 1–9 implemented, 36/36 tests passing, `tsc`, `eslint`, and `next build` clean; only live `GEMINI_API_KEY` manual run awaits user key in `.env.local`).
+**Status:** Complete (Tasks 1–9 implemented, 36/36 unit/integration tests + 2/2 live Gemini E2E fights passing, `tsc`, `eslint`, and `next build` clean).
 
 **Goal:** A web app where 2-4 AI agents, each defending one option of the user's dilemma, fight in a pixel-art colosseum, scored by a judge agent, ending in a justified recommendation.
 
@@ -143,7 +143,7 @@
 **Files:** Modify only what the audits flag.
 - [x] **Step 1:** Run `hallmark-ui-audit` and `emil-design-eng` over the three screens and verify editorial palette (`#F9F8F6`, `#111110`, `#C8501A`, `#E4E0D8`, `#FFFFFF`), exposed `1px` hairline grids, `tabular-nums`, `cubic-bezier(0.16, 1, 0.3, 1)` `<300ms` transitions, and `IntersectionObserver` canvas pausing.
 - [x] **Step 2:** Run `npx tsc --noEmit`, `npm run lint`, `npm run build`, `npx vitest run` (all clean: 0 errors, 0 warnings, 36/36 tests passing).
-- [ ] **Step 3:** With a real `GEMINI_API_KEY` in `.env.local`, run one 2-option fight end to end and one 4-option fight (simulated mode is verified; live Gemini run awaits user API key).
+- [x] **Step 3:** With a real `GEMINI_API_KEY` in `.env.local`, run one 2-option fight end to end (`14.8s`, 5 rounds + verdict) and one 4-option fight (`90.5s`, 5 rounds + verdict across Free Tier RPM reset) via `tests/live.test.ts`.
 - [x] **Step 4:** Commit `feat: arena and verdict screens, audits, and verification`.
 
 ---
