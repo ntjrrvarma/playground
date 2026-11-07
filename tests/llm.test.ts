@@ -43,7 +43,7 @@ describe("parseVerdict", () => {
     expect(parseVerdict(JSON.stringify(verdict)).recommendation).toBe("Take the job.");
   });
   it("rejects a missing recommendation", () => {
-    const { recommendation: _r, ...rest } = verdict;
+    const rest = { ...verdict, recommendation: "" };
     expect(() => parseVerdict(JSON.stringify(rest))).toThrow();
   });
 });
