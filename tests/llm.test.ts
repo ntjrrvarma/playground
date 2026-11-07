@@ -47,3 +47,4 @@ describe("parseVerdict", () => {
     expect(() => parseVerdict(JSON.stringify(rest))).toThrow();
   });
 });
+

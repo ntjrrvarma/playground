@@ -48,3 +48,4 @@ describe("pickWinner", () => {
     expect(pickWinner({ a: 0, b: 0, c: 0 }, { a: 60, b: 80, c: 70 })).toBe("b");
   });
 });
+

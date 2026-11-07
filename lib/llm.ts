@@ -56,3 +56,4 @@ export function parseVerdict(raw: string): Verdict {
     confidence: Math.min(1, Math.max(0, Number(o.confidence) || 0)),
   };
 }
+

@@ -35,3 +35,4 @@ export type FightEvent =
       telemetry: Record<string, { tokens: number }>;
     }
   | { type: "error"; message: string };
+
