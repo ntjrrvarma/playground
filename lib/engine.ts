@@ -2,6 +2,38 @@ import type { Scores } from "@/lib/types";
 
 export const MAX_HP = 100;
 
+export function validateFightInput(body: unknown): {
+  ok: true;
+  dilemma: string;
+  options: string[];
+} | { ok: false; error: string } {
+  if (!body || typeof body !== "object") {
+    return { ok: false, error: "Invalid request payload." };
+  }
+  const rawDilemma = (body as { dilemma?: unknown }).dilemma;
+  const rawOptions = (body as { options?: unknown }).options;
+  const dilemma = typeof rawDilemma === "string" ? rawDilemma.trim() : "";
+  if (!dilemma) {
+    return { ok: false, error: "Enter a dilemma before starting the fight." };
+  }
+  if (!Array.isArray(rawOptions) || rawOptions.length < 2 || rawOptions.length > 4) {
+    return { ok: false, error: "Provide between 2 and 4 options." };
+  }
+  const options = rawOptions.map((o) => (typeof o === "string" ? o.trim() : ""));
+  if (options.some((o) => !o)) {
+    return { ok: false, error: "Every option must have non-empty text." };
+  }
+  const seen = new Set<string>();
+  for (const o of options) {
+    const key = o.toLowerCase();
+    if (seen.has(key)) {
+      return { ok: false, error: "Options must be distinct." };
+    }
+    seen.add(key);
+  }
+  return { ok: true, dilemma, options };
+}
+
 export function totalOf(s: Scores): number {
   return s.logic + s.evidence + s.honesty;
 }
